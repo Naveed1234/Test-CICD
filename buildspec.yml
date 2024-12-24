@@ -1,26 +1,30 @@
-buildspec.yml file:
-
 version: 0.2
 
 env:
-    variables:
-        CACHE_CONTROL: "86400"
-        S3_BUCKET: "{{s3_bucket_url}}"
-        BUILD_FOLDER: "dist"
+  variables:
+    CACHE_CONTROL: "86400"
+    S3_BUCKET: "{{s3_bucket_url}}"
+    BUILD_FOLDER: "dist"
+
 phases:
   install:
     runtime-versions:
-        nodejs: 14
+      nodejs: 16
     commands:
-echo Installing source NPM dependencies...
-npm install
-npm install -g @angular/cli
+      - echo "Installing dependencies"
+      - npm install
+
   build:
     commands:
-echo Build started 
-ng build
+      - echo "Building the project"
+      - npm run build
+      - echo "Bucket Name: $S3_BUCKET"  # Example usage of environment variable
+
 artifacts:
-    files:
-'**/*'
-    base-directory: 'dist*'
-    discard-paths: yes
+  files:
+    - '**/*'
+  discard-paths: yes
+
+cache:
+  paths:
+    - 'node_modules/**/*'
