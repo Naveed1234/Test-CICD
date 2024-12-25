@@ -17,7 +17,7 @@ phases:
     commands:
       - echo "Building the project"
       - npm run build
-      - echo "Bucket Name: $S3_BUCKET"  # Ensure this is a valid command string
+      - echo "Bucket Name: $S3_BUCKET" # Comment moved outside the list
 
 artifacts:
   files:
