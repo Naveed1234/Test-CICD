@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   variables:
-    S3_BUCKET: "my-real-s3-bucket-name" # Replace with your actual S3 bucket name
+    S3_BUCKET: "S3_BUCKET" # Replace with your actual S3 bucket name
 
 phases:
   install:
@@ -11,21 +11,18 @@ phases:
     commands:
       - echo "Installing dependencies"
       - npm install
-      - echo "Dependencies installed successfully"
-
-  build:
-    commands:
-      - echo "Building the Angular project"
-      - npm run build --prod
-      - echo "Build completed successfully"
-
+      - echo "Installed dependencies successfully"
   post_build:
     commands:
       - echo "Verifying build artifacts"
       - ls -la dist/demo-devops
-      - echo "Deploying to S3 bucket: $S3_BUCKET"
-      - aws s3 sync dist/demo-devops s3://$S3_BUCKET --delete --debug
-      - echo "Deployment completed successfully"
+      - echo "Deploying to S3"
+      - echo "Deployment completed"
+
+artifacts:
+  files:
+    - 'dist/**/*'
+  discard-paths: yes
 
 cache:
   paths:
