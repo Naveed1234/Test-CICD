@@ -16,9 +16,18 @@ phases:
   build:
     commands:
       - echo "Building the project"
+      - npm run build --prod # This builds the Angular project
+
+  post_build:
+    commands:
+      - echo "Syncing files to S3"
+      - aws s3 sync dist/your-project-name s3://$S3_BUCKET --delete
+      - echo "Invalidating CloudFront cache (if applicable)"
+      - aws cloudfront create-invalidation --distribution-id YOUR_DISTRIBUTION_ID --paths "/*" || echo "No CloudFront distribution set"
+
 artifacts:
   files:
-    - '**/*'
+    - 'dist/**/*' # Collect only built Angular files
   discard-paths: yes
 
 cache:
