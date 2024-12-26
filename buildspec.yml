@@ -12,20 +12,6 @@ phases:
       - echo "Installing dependencies"
       - npm install
       - echo "Installed dependencies successfully"
-
-  build:
-    commands:
-      - echo "Verifying Node.js version"
-      - node -v
-      - echo "Verifying npm version"
-      - npm -v
-      - echo "Checking if Angular CLI is installed"
-      - ng --version || npm install -g @angular/cli
-      - echo "Checking file structure"
-      - ls -la
-      - echo "Building the project with verbose logging"
-      - npm run build --verbose || (echo "Build failed" && exit 1)
-
   post_build:
     commands:
       - echo "Verifying build artifacts"
