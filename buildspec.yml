@@ -15,12 +15,16 @@ phases:
 
   build:
     commands:
-    - echo "Deploying to S3 bucket: $S3_BUCKET"
-    - echo "Listing contents of dist directory:"
-    - ls -al dist/demo-devops
-    - echo "Running AWS sync command"
-    - aws s3 sync dist/demo-devops s3://$S3_BUCKET --delete
-    - echo "Deployment completed"
+      - echo "Verifying Node.js version"
+      - node -v
+      - echo "Verifying npm version"
+      - npm -v
+      - echo "Checking if Angular CLI is installed"
+      - ng --version || npm install -g @angular/cli
+      - echo "Checking file structure"
+      - ls -la
+      - echo "Building the project with verbose logging"
+      - npm run build --verbose || (echo "Build failed" && exit 1)
 
   post_build:
     commands:
