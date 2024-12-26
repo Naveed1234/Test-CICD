@@ -16,7 +16,6 @@ phases:
   build:
     commands:
       - echo "Building the project"
-      - npm run build:prod
       - echo "Bucket Name: $S3_BUCKET"
 
   post_build:
