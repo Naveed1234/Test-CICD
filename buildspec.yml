@@ -1,5 +1,9 @@
 version: 0.2
 
+env:
+  variables:
+    S3_BUCKET: "S3_BUCKET" # Replace with your actual S3 bucket name
+
 phases:
   install:
     runtime-versions:
@@ -7,14 +11,20 @@ phases:
     commands:
       - echo "Installing dependencies"
       - npm install
-      - echo "Installing Angular CLI"
-      - npm install -g @angular/cli
+      - echo "Installed dependencies successfully"
 
   build:
     commands:
-      - echo "Building the project"
-      - npm run build --verbose
-      - echo "Build completed successfully"
+      - echo "Verifying Node.js version"
+      - node -v
+      - echo "Verifying npm version"
+      - npm -v
+      - echo "Checking if Angular CLI is installed"
+      - ng --version || npm install -g @angular/cli
+      - echo "Checking file structure"
+      - ls -la
+      - echo "Building the project with verbose logging"
+      - npm run build --verbose || (echo "Build failed" && exit 1)
 
   post_build:
     commands:
