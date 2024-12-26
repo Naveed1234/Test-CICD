@@ -15,9 +15,6 @@ phases:
 
   build:
     commands:
-      - echo "Building the project"
-      - echo "Bucket Name: $S3_BUCKET"
-
   post_build:
     commands:
       - echo "Deploying to S3"
