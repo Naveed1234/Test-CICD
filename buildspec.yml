@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   variables:
-    S3_BUCKET: "S3_BUCKET"  # Replace with your actual S3 bucket name
+    S3_BUCKET: "S3_BUCKET" # Replace with your actual S3 bucket name
 
 phases:
   install:
@@ -17,7 +17,7 @@ phases:
       - echo "Verifying build artifacts"
       - ls -la dist/demo-devops
       - echo "Deploying to S3"
-      - aws s3 sync dist/demo-devops s3://$S3_BUCKET --delete
+      - aws s3 sync dist/demo-devops s3://$S3_BUCKET --delete --debug
       - echo "Deployment completed"
 
 artifacts:
