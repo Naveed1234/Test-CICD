@@ -2,13 +2,13 @@ version: 0.2
 
 env:
   variables:
-    S3_BUCKET: "my-s3-bucket-name"
+    S3_BUCKET: "my-s3-bucket-name" # Replace with your actual S3 bucket name
     ENV_VAR_1: "value1"
 
 phases:
   install:
     runtime-versions:
-      nodejs: 14
+      nodejs: 16
     commands:
       - echo "Installing dependencies"
       - npm install
@@ -16,18 +16,18 @@ phases:
   build:
     commands:
       - echo "Building the project"
-      - npm run build --prod # This builds the Angular project
+      - npm run build:prod
+      - echo "Bucket Name: $S3_BUCKET"
 
   post_build:
     commands:
-      - echo "Syncing files to S3"
-      - aws s3 sync dist/your-project-name s3://$S3_BUCKET --delete
-      - echo "Invalidating CloudFront cache (if applicable)"
-      - aws cloudfront create-invalidation --distribution-id YOUR_DISTRIBUTION_ID --paths "/*" || echo "No CloudFront distribution set"
+      - echo "Deploying to S3"
+      - aws s3 sync dist/demo-devops s3://$S3_BUCKET --delete
+      - echo "Deployment completed"
 
 artifacts:
   files:
-    - 'dist/**/*' # Collect only built Angular files
+    - 'dist/**/*'
   discard-paths: yes
 
 cache:
