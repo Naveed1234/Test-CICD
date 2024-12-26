@@ -1,10 +1,5 @@
 version: 0.2
 
-env:
-  variables:
-    S3_BUCKET: "my-s3-bucket-name" # Replace with your actual S3 bucket name
-    ENV_VAR_1: "value1"
-
 phases:
   install:
     runtime-versions:
@@ -12,11 +7,19 @@ phases:
     commands:
       - echo "Installing dependencies"
       - npm install
+      - echo "Installing Angular CLI"
+      - npm install -g @angular/cli
 
   build:
     commands:
+      - echo "Building the project"
+      - npm run build --verbose
+      - echo "Build completed successfully"
+
   post_build:
     commands:
+      - echo "Verifying build artifacts"
+      - ls -la dist/demo-devops
       - echo "Deploying to S3"
       - aws s3 sync dist/demo-devops s3://$S3_BUCKET --delete
       - echo "Deployment completed"
